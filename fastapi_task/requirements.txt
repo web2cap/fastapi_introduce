@@ -1,0 +1,16 @@
+aiosqlite
+annotated-types
+anyio
+click
+colorama
+fastapi
+greenlet
+h11
+idna
+pydantic
+pydantic_core
+sniffio
+SQLAlchemy
+starlette
+typing_extensions
+uvicorn
