@@ -2,6 +2,7 @@ from datetime import date
 from typing import Optional
 
 from fastapi import FastAPI, Query
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -15,3 +16,14 @@ def get_hotels(
     has_spa: Optional[bool] = None,
 ):
     return date_from, date_to
+
+
+class SBooking(BaseModel):
+    room_id: int
+    date_from: date
+    date_to: date
+
+
+@app.post("/booking")
+def add_booking(booking: SBooking):
+    return booking
