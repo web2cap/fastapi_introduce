@@ -9,6 +9,7 @@ from app.database import DATABASE_URL, Base
 from app.hotels.models import Hotels
 from app.users.models import Users
 from app.rooms.models import Rooms
+from app.bookings.models import Bookings
 
 sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 
