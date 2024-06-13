@@ -4,7 +4,11 @@ from typing import Optional
 from fastapi import Depends, FastAPI, Query
 from pydantic import BaseModel
 
+from app.bookings.router import router as router_bookings
+
 app = FastAPI()
+
+app.include_router(router_bookings)
 
 
 class SHotel(BaseModel):
