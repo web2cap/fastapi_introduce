@@ -4,4 +4,5 @@ fastapi[all]
 greenlet
 
 passlib
+python-jose
 sqlalchemy
