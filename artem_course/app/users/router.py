@@ -33,7 +33,7 @@ async def login_user(response: Response, user_data: SUserAuth) -> dict:
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Wrong email or password"
         )
 
-    access_token = create_access_token({"sub": user.id})
+    access_token = create_access_token({"sub": str(user.id)})
     response.set_cookie("booking_access_token", access_token, httponly=True)
 
     return {"id": user.id, "email": user.email, "access_token": access_token}
