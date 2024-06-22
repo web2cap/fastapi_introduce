@@ -8,7 +8,11 @@ class Settings(BaseSettings):
     DB_USER: str
     DB_PASS: str
 
+    HASH_KEY: str
+    HASH_ALGO: str
+
     class Config:
         env_file = ".env"
+
 
 settings = Settings()
