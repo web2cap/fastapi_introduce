@@ -3,4 +3,5 @@ asyncpg
 fastapi[all]
 greenlet
 
+passlib
 sqlalchemy
