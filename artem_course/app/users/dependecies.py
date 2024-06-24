@@ -8,7 +8,7 @@ from app.exception import (
     IncorrectTokenFormatExeption,
     NoTokenProvidedExeption,
     NoUserWithThisIdExeption,
-    TonetIsntFreshExeption,
+    TokenIsntFreshExeption,
 )
 from app.users.dao import UsersDAO
 from app.users.models import Users
@@ -26,7 +26,7 @@ async def get_current_user(token: str = Depends(get_token_from_request)) -> User
         payload = jwt.decode(token, settings.HASH_KEY, settings.HASH_ALGO)
         expire: str = payload.get("exp")
         if not expire or int(expire) < datetime.now(timezone.utc).timestamp():
-            raise TonetIsntFreshExeption
+            raise TokenIsntFreshExeption
         user_id: str = payload.get("sub")
         if not user_id or not int(user_id):
             raise IncorrectTokenFormatExeption

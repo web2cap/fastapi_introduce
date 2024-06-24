@@ -12,7 +12,7 @@ NoTokenProvidedExeption = HTTPException(
     status_code=status.HTTP_401_UNAUTHORIZED, detail="No token provided "
 )
 
-TonetIsntFreshExeption = HTTPException(
+TokenIsntFreshExeption = HTTPException(
     status_code=status.HTTP_401_UNAUTHORIZED, detail="Tonet isn't fresh"
 )
 IncorrectTokenFormatExeption = HTTPException(
