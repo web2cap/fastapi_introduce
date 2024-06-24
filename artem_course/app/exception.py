@@ -1,27 +1,44 @@
 from fastapi import HTTPException, status
 
-UserAlreadyExistsExeption = HTTPException(
-    status_code=status.HTTP_409_CONFLICT, detail="User already exists"
-)
 
-IncorectUserNameExeption = HTTPException(
-    status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorect user name or password"
-)
+class AppDefaultHTTPExeption(HTTPException):
+    status_code = 500
+    detail = ""
 
-NoTokenProvidedExeption = HTTPException(
-    status_code=status.HTTP_401_UNAUTHORIZED, detail="No token provided "
-)
+    def __init__(self):
+        super().__init__(status_code=self.status_code, detail=self.detail)
 
-TokenIsntFreshExeption = HTTPException(
-    status_code=status.HTTP_401_UNAUTHORIZED, detail="Tonet isn't fresh"
-)
-IncorrectTokenFormatExeption = HTTPException(
-    status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorect token ormat"
-)
-NoUserWithThisIdExeption = HTTPException(
-    status_code=status.HTTP_401_UNAUTHORIZED,
-    detail="User with provided id is not found",
-)
-JWTErrorExeption = HTTPException(
-    status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorect user name "
-)
+
+class UserAlreadyExistsExeption(AppDefaultHTTPExeption):
+    status_code = status.HTTP_409_CONFLICT
+    detail = "User already exists"
+
+
+class IncorectUserNameExeption(AppDefaultHTTPExeption):
+    status_code = status.HTTP_401_UNAUTHORIZED
+    detail = "Incorect user name or password"
+
+
+class NoTokenProvidedExeption(AppDefaultHTTPExeption):
+    status_code = status.HTTP_401_UNAUTHORIZED
+    detail = "No token provided "
+
+
+class TokenIsntFreshExeption(AppDefaultHTTPExeption):
+    status_code = status.HTTP_401_UNAUTHORIZED
+    detail = "Tonet isn't fresh"
+
+
+class IncorrectTokenFormatExeption(AppDefaultHTTPExeption):
+    status_code = status.HTTP_401_UNAUTHORIZED
+    detail = "Incorect token ormat"
+
+
+class NoUserWithThisIdExeption(AppDefaultHTTPExeption):
+    status_code = status.HTTP_401_UNAUTHORIZED
+    detail = "User with provided id is not found"
+
+
+class JWTErrorExeption(AppDefaultHTTPExeption):
+    status_code = status.HTTP_401_UNAUTHORIZED
+    detail = "Incorect user name "
