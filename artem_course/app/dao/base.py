@@ -1,11 +1,13 @@
-from sqlalchemy import insert, or_, select
+from sqlalchemy import delete, insert, or_, select
 
+from app.bookings.models import Bookings
 from app.database import async_session_maker
 
 
 class BaseDAO:
     model = None
 
+    # READ
     @classmethod
     async def find_by_id(cls, model_id: int):
         async with async_session_maker() as session:
@@ -39,9 +41,19 @@ class BaseDAO:
             result = await session.execute(query)
             return result.scalars().all()
 
+    # CREATE
     @classmethod
     async def insetr_data(cls, **data):
         async with async_session_maker() as session:
             query = insert(cls.model).values(**data)
             await session.execute(query)
             await session.commit()
+
+    # DELETE
+    @classmethod
+    async def delete_by_id(cls, id: int):
+        async with async_session_maker() as session:
+            query = delete(cls.model).where(cls.model.id == id).returning(cls.model)
+            result = await session.execute(query)
+            await session.commit()
+            return result.scalars().first()

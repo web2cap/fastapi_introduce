@@ -49,3 +49,9 @@ class JWTErrorExeption(AppDefaultHTTPExeption):
 class NoFreeRoomsOnThisDates(AppDefaultHTTPExeption):
     status_code = status.HTTP_409_CONFLICT
     detail = "There are no such rooms available for this dates"
+
+
+# GENERAL
+class NoEntryFoundException(AppDefaultHTTPExeption):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "No entry with provided id found"
