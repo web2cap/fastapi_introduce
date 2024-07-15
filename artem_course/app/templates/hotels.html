@@ -6,6 +6,13 @@
     <title>Hotels</title>
 </head>
 <body>
-    <h1>Hotesl </h1>
+    <h1>Hotels</h1>
+    {% for hotel in hotels %}
+    <div>
+        <h1>{{hotel.name}}</h1>
+        <h4>{{hotel.location}}</h4>
+    </div>
+    {% endfor %}
+
 </body>
 </html>
