@@ -20,3 +20,8 @@ async def get_hotels_by_location(
     return await HotelsDAO.find_by_location_free_on_date(
         search_by={"location": location}, date_from=date_from, date_to=date_to
     )
+
+
+@router.get("/id/{id}")
+async def get_hotels_by_id(id: int) -> SHotels | None:
+    return await HotelsDAO.find_by_id(id)
