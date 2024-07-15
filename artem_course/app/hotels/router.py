@@ -1,8 +1,9 @@
+from datetime import date
+
 from fastapi import APIRouter
 
 from app.hotels.dao import HotelsDAO
-from app.hotels.models import Hotels
-from app.hotels.schemas import SHotels
+from app.hotels.schemas import SHotels, SHotelsFreeRooms
 
 router = APIRouter(prefix="/hotels", tags=["Hotels"])
 
@@ -13,5 +14,9 @@ async def get_hotels() -> list[SHotels]:
 
 
 @router.get("/{location}")
-async def get_hotels_by_location(location: str) -> list[SHotels] | None:
-    return await HotelsDAO.find_by_condensed_string(location=location)
+async def get_hotels_by_location(
+    location: str, date_from: date, date_to: date
+) -> list[SHotelsFreeRooms] | None:
+    return await HotelsDAO.find_by_location_free_on_date(
+        search_by={"location": location}, date_from=date_from, date_to=date_to
+    )

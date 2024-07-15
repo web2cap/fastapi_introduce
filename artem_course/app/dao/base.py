@@ -1,6 +1,5 @@
 from sqlalchemy import delete, insert, or_, select
 
-from app.bookings.models import Bookings
 from app.database import async_session_maker
 
 
@@ -23,14 +22,14 @@ class BaseDAO:
             return result.scalar_one_or_none()
 
     @classmethod
-    async def find_by_condensed_string(cls, **filter_by):
+    async def find_by_condensed_string(cls, serach_by: dict, **filter_by):
         async with async_session_maker() as session:
-            filters = [
+            search_filters = [
                 getattr(cls.model, field).ilike(f"%{value}%")
-                for field, value in filter_by.items()
+                for field, value in serach_by.items()
             ]
-            print(filters)
-            query = select(cls.model).where(or_(*filters))
+            print(search_filters)
+            query = select(cls.model).where(or_(*search_filters)).filter_by(**filter_by)
             result = await session.execute(query)
             return result.scalars().all()
 
