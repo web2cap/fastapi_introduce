@@ -1,12 +1,8 @@
-from collections.abc import AsyncIterator
-from contextlib import asynccontextmanager
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
-from fastapi_cache.decorator import cache
 from redis import asyncio as aioredis
 
 from app.bookings.router import router as router_bookings
@@ -20,11 +16,6 @@ from app.users.router import router as router_users
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
-
-
-@cache()
-async def get_cache():
-    return 1
 
 
 app.include_router(router_users)
@@ -52,6 +43,6 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup():
     redis = aioredis.from_url(
-        "redis://localhost:63792", encoding="utf8", decode_responses=True
+        settings.REDIS_CACHE_STR, encoding="utf8", decode_responses=True
     )
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
