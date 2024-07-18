@@ -1,7 +1,9 @@
 alembic
 asyncpg
+celery
 fastapi[all]
 fastapi-cache2[redis]
+flower
 greenlet
 
 passlib
