@@ -1,7 +1,7 @@
 version: '3.5'
 
 services:
-  postgres:
+  booking_pg:
     container_name: postgres_container
     image: postgres
     environment:
@@ -16,7 +16,7 @@ services:
       - postgres
     restart: unless-stopped
   
-  pgadmin:
+  booking_pgadmin:
     container_name: pgadmin_container
     image: dpage/pgadmin4
     environment:
@@ -31,6 +31,11 @@ services:
     networks:
       - postgres
     restart: unless-stopped
+
+  booking_redis:
+    image: redis:latest
+    ports:
+      - "63792:6379"
 
 networks:
   postgres:
