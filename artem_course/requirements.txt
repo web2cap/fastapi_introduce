@@ -1,6 +1,7 @@
 alembic
 asyncpg
 fastapi[all]
+fastapi-cache2[redis]
 greenlet
 
 passlib
