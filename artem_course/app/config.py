@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     DB_USER: str
     DB_PASS: str
 
+    REDIS_STR: str
+
     HASH_KEY: str
     HASH_ALGO: str
 
