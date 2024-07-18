@@ -7,5 +7,6 @@ flower
 greenlet
 
 passlib
+pillow
 python-jose
 sqlalchemy
