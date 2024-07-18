@@ -1,7 +1,9 @@
+from typing import List
+
 from pydantic import BaseModel
 
 
-class SHotels(BaseModel):
+class SHotel(BaseModel):
     id: int
     name: str
     location: str
@@ -9,5 +11,9 @@ class SHotels(BaseModel):
     image_id: int
 
 
-class SHotelsFreeRooms(SHotels):
+class SHotelFreeRooms(SHotel):
     rooms_left: int
+
+
+class SHotelsFreeRooms(BaseModel):
+    hotels: List[SHotelFreeRooms]

@@ -51,3 +51,17 @@ class HotelsDAO(BaseDAO):
 
             result = await session.execute(query)
             return result.all()
+
+    @classmethod
+    def shotelsrooms_typle_to_dict(cls, hotels_typle: list):
+        return [
+            {
+                "id": hotel[0],
+                "name": hotel[1],
+                "location": hotel[2],
+                "rooms_quantity": hotel[3],
+                "image_id": hotel[4],
+                "rooms_left": hotel[5],
+            }
+            for hotel in hotels_typle
+        ]

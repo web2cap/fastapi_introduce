@@ -5,7 +5,6 @@ from fastapi import APIRouter, Depends
 from app.bookings.dao import BookingDAO
 from app.bookings.schemas import SBookings
 from app.exception import NoEntryFoundException, NoFreeRoomsOnThisDates
-from app.hotels.schemas import SHotels
 from app.users.dependecies import get_current_user
 from app.users.models import Users
 
