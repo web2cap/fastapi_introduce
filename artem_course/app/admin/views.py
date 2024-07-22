@@ -21,6 +21,7 @@ class BookingsAdmin(ModelView, model=Bookings):
     ]
     name = "Booking"
     name_plural = "Bookings"
+    icon = "fa-solid fa-book"
 
 
 class HotelsAdmin(ModelView, model=Hotels):
