@@ -9,4 +9,5 @@ greenlet
 passlib
 pillow
 python-jose
+sqladmin
 sqlalchemy
