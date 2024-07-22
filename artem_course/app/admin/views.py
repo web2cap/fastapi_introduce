@@ -14,6 +14,8 @@ class UserAdmin(ModelView, model=Users):
 
 
 class BookingsAdmin(ModelView, model=Bookings):
-    column_list = [c.name for c in Bookings.__table__.c]
+    column_list = [c.name for c in Bookings.__table__.c if c.name != "user_id"] + [
+        Bookings.user
+    ]
     name = "Booking"
     name_plural = "Bookings"
