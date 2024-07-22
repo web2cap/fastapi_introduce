@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     HASH_KEY: str
     HASH_ALGO: str
 
+    ADMIN_SECURE_KEY: str
+
     class Config:
         env_file = ".env"
 
