@@ -1,6 +1,7 @@
 from sqladmin import ModelView
 
 from app.bookings.models import Bookings
+from app.hotels.models import Hotels
 from app.users.models import Users
 
 
@@ -19,3 +20,12 @@ class BookingsAdmin(ModelView, model=Bookings):
     ]
     name = "Booking"
     name_plural = "Bookings"
+
+
+class HotelsAdmin(ModelView, model=Hotels):
+    column_list = [c.name for c in Hotels.__table__.c if c.name != "rooms_id"] + [
+        Hotels.rooms
+    ]
+    name = "Hotel"
+    name_plural = "Hotels"
+    icon = "fa-solid fa-hotel"
