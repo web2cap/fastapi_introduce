@@ -2,6 +2,7 @@ from sqladmin import ModelView
 
 from app.bookings.models import Bookings
 from app.hotels.models import Hotels
+from app.hotels.rooms.models import Rooms
 from app.users.models import Users
 
 
@@ -29,3 +30,13 @@ class HotelsAdmin(ModelView, model=Hotels):
     name = "Hotel"
     name_plural = "Hotels"
     icon = "fa-solid fa-hotel"
+
+
+class RoomsAdmin(ModelView, model=Rooms):
+    column_list = [
+        c.name for c in Rooms.__table__.c if c.name not in ("hotel_id", "booking_id")
+    ] + [Rooms.hotels, Rooms.booking]
+
+    name = "Room"
+    name_plural = "Rooms"
+    icon = "fa-solid fa-bed"
