@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.concurrency import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
@@ -17,10 +18,18 @@ from app.images.router import router as router_images
 from app.pages.router import router as router_pages
 from app.users.router import router as router_users
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    redis = aioredis.from_url(
+        settings.REDIS_CACHE_STR, encoding="utf8", decode_responses=True
+    )
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
+    yield
+    await redis.close()
 
 
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
 
@@ -54,11 +63,3 @@ admin.add_view(UserAdmin)
 admin.add_view(BookingsAdmin)
 admin.add_view(HotelsAdmin)
 admin.add_view(RoomsAdmin)
-
-
-@app.on_event("startup")
-async def startup():
-    redis = aioredis.from_url(
-        settings.REDIS_CACHE_STR, encoding="utf8", decode_responses=True
-    )
-    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
