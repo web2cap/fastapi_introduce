@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Response, status
 
 from app.exception import IncorectUserNameExeption, UserAlreadyExistsExeption
 from app.users.auth import authenticate_user, create_access_token, hash_password
@@ -13,7 +13,7 @@ router = APIRouter(
 )
 
 
-@router.post("/register")
+@router.post("/register", status_code=status.HTTP_201_CREATED)
 async def register_user(user_data: SUserAuth) -> dict:
     existing_users = await UsersDAO.find_one_or_none(email=user_data.email)
     if existing_users:
