@@ -1,5 +1,6 @@
 from typing import Literal
 
+from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
 
 
@@ -26,8 +27,7 @@ class Settings(BaseSettings):
 
     ADMIN_SECURE_KEY: str
 
-    class Config:
-        env_file = ".env"
+    model_config = ConfigDict(env_file=".env")
 
 
 settings = Settings()
