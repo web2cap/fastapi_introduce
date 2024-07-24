@@ -65,3 +65,9 @@ def event_loop(request):
 async def ac():
     async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
         yield ac
+
+
+@pytest.fixture(scope="function")
+async def session():
+    async with async_session_maker() as session:
+        yield session
