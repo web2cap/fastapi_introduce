@@ -5,9 +5,9 @@ fastapi[all]
 fastapi-cache2[redis]
 flower
 greenlet
-
 passlib
 pillow
+pytest
 python-jose
 sqladmin
 sqlalchemy
