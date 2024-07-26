@@ -1,5 +1,6 @@
 alembic
 asyncpg
+bcrypt
 celery
 fastapi[all]
 fastapi-cache2[redis]
@@ -11,6 +12,7 @@ pillow
 pytest
 pytest-asyncio
 python-jose
+psycopg2
 sqladmin
 sqlalchemy
 black
