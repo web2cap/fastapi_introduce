@@ -50,12 +50,46 @@ services:
     depends_on:
       - booking_pg
       - booking_redis
+    volumes:
+      - booking_static_vol:/booking/app/static/
     networks:
       - postgres_nw
       - redis_nw
     env_file:
       - ./.env
     command: /scripts/start_fastapi.sh
+
+  booking_celery:
+    build:
+      context: ../
+    restart: always
+    depends_on:
+      - booking_pg
+      - booking_redis
+    volumes:
+      - booking_static_vol:/booking/app/static/
+    networks:
+      - postgres_nw
+      - redis_nw
+    env_file:
+      - ./.env
+    command: ["/scripts/start_celery.sh", "celery"]
+
+  booking_flower:
+    build:
+      context: ../
+    env_file:
+      - ./.env
+    ports:
+      - "5555:5555"
+    depends_on:
+      - booking_celery
+    volumes:
+      - booking_static_vol:/booking/app/static/
+    command: ["/scripts/start_celery.sh", "flower"]
+    networks:
+      - postgres_nw
+      - redis_nw
 
 
 networks:
@@ -65,5 +99,6 @@ networks:
     driver: bridge
 
 volumes:
+    booking_static_vol:
     postgres:
     pgadmin:
