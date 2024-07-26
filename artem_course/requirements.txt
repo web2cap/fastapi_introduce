@@ -18,3 +18,4 @@ flake8
 autoflake
 isort
 pyright
+python-json-logger
