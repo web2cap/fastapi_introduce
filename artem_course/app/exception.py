@@ -9,7 +9,7 @@ class AppDefaultHTTPExeption(HTTPException):
         super().__init__(status_code=self.status_code, detail=self.detail)
 
 
-### Users and Auth
+# Users and Auth
 class UserAlreadyExistsExeption(AppDefaultHTTPExeption):
     status_code = status.HTTP_409_CONFLICT
     detail = "User already exists"
@@ -45,7 +45,7 @@ class JWTErrorExeption(AppDefaultHTTPExeption):
     detail = "Incorect user name "
 
 
-### boookings
+# boookings
 class NoFreeRoomsOnThisDates(AppDefaultHTTPExeption):
     status_code = status.HTTP_409_CONFLICT
     detail = "There are no such rooms available for this dates"
