@@ -20,3 +20,4 @@ isort
 pyright
 python-json-logger
 sentry-sdk[fastapi]
+fastapi-versioning

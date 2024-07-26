@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
+from fastapi_versioning import VersionedFastAPI, version
 from redis import asyncio as aioredis
 from sqladmin import Admin
 
@@ -41,9 +42,6 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-app.mount("/static", StaticFiles(directory="app/static"), "static")
-
-
 app.include_router(router_users)
 app.include_router(router_bookings)
 app.include_router(router_pages)
@@ -76,6 +74,16 @@ async def add_process_time_header(request: Request, call_next):
     )
     return response
 
+
+app = VersionedFastAPI(
+    app,
+    version_format="{major}",
+    prefix_format="/v{major}",
+    # description="Greet users with a nice message",
+    # middleware=[Middleware(SessionMiddleware, secret_key="mysecretkey")],
+)
+
+app.mount("/static", StaticFiles(directory="app/static"), "static")
 
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 
