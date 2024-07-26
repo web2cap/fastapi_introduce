@@ -13,6 +13,8 @@ from app.hotels.rooms.models import Rooms
 from app.main import app as fastapi_app
 from app.users.models import Users
 
+TRANSPORT = ASGITransport(app=fastapi_app)
+
 
 @pytest.fixture(scope="session", autouse=True)
 async def prepare_database():
@@ -53,8 +55,7 @@ async def prepare_database():
 
 @pytest.fixture(scope="function")
 async def ac():
-    transport = ASGITransport(app=fastapi_app)
-    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+    async with AsyncClient(transport=TRANSPORT, base_url="http://test") as ac:
         yield ac
 
 
@@ -62,3 +63,17 @@ async def ac():
 async def session():
     async with async_session_maker() as session:
         yield session
+
+
+@pytest.fixture(scope="session")
+async def authenticated_ac():
+    async with AsyncClient(transport=TRANSPORT, base_url="http://test") as ac:
+        await ac.post(
+            "/auth/login",
+            json={
+                "email": "test@test.com",
+                "password": "test",
+            },
+        )
+        assert ac.cookies["booking_access_token"]
+        yield ac
