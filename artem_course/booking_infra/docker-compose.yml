@@ -2,7 +2,6 @@ version: '3.5'
 
 services:
   booking_pg:
-    container_name: postgres_container
     image: postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
@@ -10,35 +9,59 @@ services:
       PGDATA: /data/postgres
     volumes:
        - postgres:/data/postgres
+       - ./postgres/init:/docker-entrypoint-initdb.d
+    # for local dev
     ports:
       - "54321:5432"
     networks:
-      - postgres
+      - postgres_nw
     restart: unless-stopped
+    env_file:
+      - ./.env
   
   booking_pgadmin:
-    container_name: pgadmin_container
     image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
        - pgadmin:/var/lib/pgadmin
-
+    # for local dev
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     networks:
-      - postgres
+      - postgres_nw
     restart: unless-stopped
+    env_file:
+      - ./.env
 
+  # for local dev
   booking_redis:
     image: redis:latest
     ports:
       - "63792:6379"
+    networks:
+      - redis_nw
+
+  booking_back:
+    build:
+      context: ../
+    restart: always
+    #TODO: NGINX
+    ports:
+      - "888:8000"
+    depends_on:
+      - booking_pg
+      - booking_redis
+    networks:
+      - postgres_nw
+      - redis_nw
+    env_file:
+      - ./.env
+    command: /scripts/start_fastapi.sh
+
 
 networks:
-  postgres:
+  postgres_nw:
+    driver: bridge
+  redis_nw:
     driver: bridge
 
 volumes:
