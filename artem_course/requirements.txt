@@ -13,3 +13,8 @@ pytest-asyncio
 python-jose
 sqladmin
 sqlalchemy
+black
+flake8
+autoflake
+isort
+pyright
