@@ -25,9 +25,7 @@ async def prepare_database():
         await conn.run_sync(Base.metadata.create_all)
 
     def open_mock_json(model: str):
-        with open(
-            f"app/tests/fixtures_data/mock_{model}.json", encoding="utf-8"
-        ) as file:
+        with open(f"app/tests/fixtures_data/mock_{model}.json", encoding="utf-8") as file:
             return json.load(file)
 
     hotels = open_mock_json("hotels")

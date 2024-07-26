@@ -25,8 +25,7 @@ class BaseDAO:
     async def find_by_condensed_string(cls, serach_by: dict, **filter_by):
         async with async_session_maker() as session:
             search_filters = [
-                getattr(cls.model, field).ilike(f"%{value}%")
-                for field, value in serach_by.items()
+                getattr(cls.model, field).ilike(f"%{value}%") for field, value in serach_by.items()
             ]
             print(search_filters)
             query = select(cls.model).where(or_(*search_filters)).filter_by(**filter_by)

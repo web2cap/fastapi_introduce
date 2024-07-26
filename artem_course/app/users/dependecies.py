@@ -36,6 +36,4 @@ async def get_current_user(token: str = Depends(get_token_from_request)) -> User
         return user
 
     except JWTError as err:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail=f"JWT error:{err}"
-        )
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"JWT error:{err}")

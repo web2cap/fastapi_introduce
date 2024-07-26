@@ -20,9 +20,7 @@ async def get_bookings(user: Users = Depends(get_current_user)) -> list[SBooking
 
 
 @router.get("/{id}")
-async def get_bookings_by_id(
-    id: int, user: Users = Depends(get_current_user)
-) -> SBookings | None:
+async def get_bookings_by_id(id: int, user: Users = Depends(get_current_user)) -> SBookings | None:
     return await BookingDAO.find_by_id(id)
 
 

@@ -23,8 +23,7 @@ class HotelsDAO(BaseDAO):
             b = aliased(Bookings)
 
             search_filters = [
-                getattr(h, field).ilike(f"%{value}%")
-                for field, value in search_by.items()
+                getattr(h, field).ilike(f"%{value}%") for field, value in search_by.items()
             ]
 
             date_conditions = or_(

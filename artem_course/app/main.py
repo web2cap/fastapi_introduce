@@ -21,9 +21,7 @@ from app.users.router import router as router_users
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    redis = aioredis.from_url(
-        settings.REDIS_CACHE_STR, encoding="utf8", decode_responses=True
-    )
+    redis = aioredis.from_url(settings.REDIS_CACHE_STR, encoding="utf8", decode_responses=True)
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
     yield
     await redis.close()

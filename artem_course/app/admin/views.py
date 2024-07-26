@@ -16,18 +16,14 @@ class UserAdmin(ModelView, model=Users):
 
 
 class BookingsAdmin(ModelView, model=Bookings):
-    column_list = [c.name for c in Bookings.__table__.c if c.name != "user_id"] + [
-        Bookings.user
-    ]
+    column_list = [c.name for c in Bookings.__table__.c if c.name != "user_id"] + [Bookings.user]
     name = "Booking"
     name_plural = "Bookings"
     icon = "fa-solid fa-book"
 
 
 class HotelsAdmin(ModelView, model=Hotels):
-    column_list = [c.name for c in Hotels.__table__.c if c.name != "rooms_id"] + [
-        Hotels.rooms
-    ]
+    column_list = [c.name for c in Hotels.__table__.c if c.name != "rooms_id"] + [Hotels.rooms]
     name = "Hotel"
     name_plural = "Hotels"
     icon = "fa-solid fa-hotel"
