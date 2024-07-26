@@ -3,27 +3,21 @@ version: '3.5'
 services:
   booking_pg:
     image: postgres
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      PGDATA: /data/postgres
     volumes:
        - postgres:/data/postgres
        - ./postgres/init:/docker-entrypoint-initdb.d
-    # for local dev
     ports:
-      - "54321:5432"
+      - "54321:5432" # for local dev
     networks:
       - postgres_nw
     restart: unless-stopped
     env_file:
       - ./.env
   
-  booking_pgadmin:
+  booking_pgadmin: # for local dev
     image: dpage/pgadmin4
     volumes:
        - pgadmin:/var/lib/pgadmin
-    # for local dev
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     networks:
@@ -43,18 +37,18 @@ services:
   booking_back:
     build:
       context: ../
-    restart: always
+    volumes:
+      - booking_static_vol:/booking/app/static/
     #TODO: NGINX
     ports:
       - "888:8000"
     depends_on:
       - booking_pg
       - booking_redis
-    volumes:
-      - booking_static_vol:/booking/app/static/
     networks:
       - postgres_nw
       - redis_nw
+    restart: always
     env_file:
       - ./.env
     command: /scripts/start_fastapi.sh
@@ -62,15 +56,15 @@ services:
   booking_celery:
     build:
       context: ../
-    restart: always
+    volumes:
+      - booking_static_vol:/booking/app/static/
     depends_on:
       - booking_pg
       - booking_redis
-    volumes:
-      - booking_static_vol:/booking/app/static/
     networks:
       - postgres_nw
       - redis_nw
+    restart: always
     env_file:
       - ./.env
     command: ["/scripts/start_celery.sh", "celery"]
@@ -78,18 +72,18 @@ services:
   booking_flower:
     build:
       context: ../
-    env_file:
-      - ./.env
+    volumes:
+      - booking_static_vol:/booking/app/static/
     ports:
       - "5555:5555"
     depends_on:
       - booking_celery
-    volumes:
-      - booking_static_vol:/booking/app/static/
-    command: ["/scripts/start_celery.sh", "flower"]
     networks:
       - postgres_nw
       - redis_nw
+    env_file:
+      - ./.env
+    command: ["/scripts/start_celery.sh", "flower"]
 
 
 networks:
