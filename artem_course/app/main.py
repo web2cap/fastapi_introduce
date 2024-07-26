@@ -1,5 +1,6 @@
 import time
 
+import sentry_sdk
 from fastapi import FastAPI, Request
 from fastapi.concurrency import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
@@ -20,6 +21,12 @@ from app.images.router import router as router_images
 from app.logger import logger
 from app.pages.router import router as router_pages
 from app.users.router import router as router_users
+
+sentry_sdk.init(
+    dsn=settings.SENTRY_DSN,
+    traces_sample_rate=1.0,
+    profiles_sample_rate=1.0,
+)
 
 
 @asynccontextmanager

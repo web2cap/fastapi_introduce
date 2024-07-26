@@ -7,6 +7,7 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     MODE: Literal["DEV", "TEST", "PROD"]
     LOG_LEVEL: str
+    SENTRY_DSN: str
 
     DB_HOST: str
     DB_PORT: int
