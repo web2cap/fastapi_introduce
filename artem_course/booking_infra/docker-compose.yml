@@ -35,6 +35,7 @@ services:
       - postgres_nw
       - redis_nw
       - nginx_nw
+      - monitoring_nw
     restart: always
     env_file:
       - ./.env
@@ -84,6 +85,16 @@ services:
       - nginx_nw
     restart: unless-stopped
 
+  booking_prometheus:
+    image: prom/prometheus:v2.43.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheusdata:/prometheus
+    networks:
+      - monitoring_nw
+    restart: unless-stopped
 
 networks:
   postgres_nw:
@@ -92,8 +103,12 @@ networks:
     driver: bridge
   nginx_nw:
     driver: bridge
+  monitoring_nw:
+    driver: bridge
 
 volumes:
     booking_static_vol:
     postgres:
     pgadmin:
+    prometheusdata:
+    
