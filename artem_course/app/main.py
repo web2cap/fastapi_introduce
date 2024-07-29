@@ -50,6 +50,7 @@ app.include_router(router_pages)
 app.include_router(router_hotels)
 app.include_router(router_rooms)
 app.include_router(router_images)
+app.include_router(router_prometheus)
 
 
 origins = [
