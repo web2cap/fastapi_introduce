@@ -96,6 +96,18 @@ services:
       - monitoring_nw
     restart: unless-stopped
 
+  booking_grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafanadata:/var/lib/grafana
+    depends_on:
+      - booking_prometheus
+    networks:
+      - monitoring_nw
+    restart: unless-stopped
+
 networks:
   postgres_nw:
     driver: bridge
@@ -110,5 +122,6 @@ volumes:
     booking_static_vol:
     postgres:
     pgadmin:
+    grafanadata:
     prometheusdata:
     
