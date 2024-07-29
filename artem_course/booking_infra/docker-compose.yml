@@ -6,30 +6,17 @@ services:
     volumes:
        - postgres:/data/postgres
        - ./postgres/init:/docker-entrypoint-initdb.d
-    ports:
-      - "54321:5432" # for local dev
-    networks:
-      - postgres_nw
-    restart: unless-stopped
-    env_file:
-      - ./.env
-  
-  booking_pgadmin: # for local dev
-    image: dpage/pgadmin4
-    volumes:
-       - pgadmin:/var/lib/pgadmin
-    ports:
-      - "${PGADMIN_PORT:-5050}:80"
+    ports: # for local dev
+      - "54321:5432" 
     networks:
       - postgres_nw
     restart: unless-stopped
     env_file:
       - ./.env
 
-  # for local dev
   booking_redis:
     image: redis:latest
-    ports:
+    ports: # for local dev
       - "63792:6379"
     networks:
       - redis_nw
@@ -39,8 +26,7 @@ services:
       context: ../
     volumes:
       - booking_static_vol:/booking/app/static/
-    #TODO: NGINX
-    ports:
+    ports: # for local dev
       - "888:8000"
     depends_on:
       - booking_pg
@@ -48,6 +34,7 @@ services:
     networks:
       - postgres_nw
       - redis_nw
+      - nginx_nw
     restart: always
     env_file:
       - ./.env
@@ -74,22 +61,36 @@ services:
       context: ../
     volumes:
       - booking_static_vol:/booking/app/static/
-    ports:
-      - "5555:5555"
     depends_on:
       - booking_celery
     networks:
       - postgres_nw
       - redis_nw
+      - nginx_nw
     env_file:
       - ./.env
     command: ["/scripts/start_celery.sh", "flower"]
+
+  booking_nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - booking_back
+      - booking_flower
+    networks:
+      - nginx_nw
+    restart: unless-stopped
 
 
 networks:
   postgres_nw:
     driver: bridge
   redis_nw:
+    driver: bridge
+  nginx_nw:
     driver: bridge
 
 volumes:
