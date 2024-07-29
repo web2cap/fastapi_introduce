@@ -24,3 +24,4 @@ python-json-logger
 sentry-sdk[fastapi]
 fastapi-versioning
 gunicorn
+prometheus-fastapi-instrumentator

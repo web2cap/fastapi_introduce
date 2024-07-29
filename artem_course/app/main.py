@@ -7,7 +7,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
-from fastapi_versioning import VersionedFastAPI, version
+from fastapi_versioning import VersionedFastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
 from redis import asyncio as aioredis
 from sqladmin import Admin
 
@@ -21,6 +22,7 @@ from app.hotels.router import router as router_hotels
 from app.images.router import router as router_images
 from app.logger import logger
 from app.pages.router import router as router_pages
+from app.prometheus.router import router as router_prometheus
 from app.users.router import router as router_users
 
 sentry_sdk.init(
@@ -84,6 +86,12 @@ app = VersionedFastAPI(
 )
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
+
+instrumentator = Instrumentator(
+    should_group_status_codes=False,
+    excluded_handlers=[".*admin.*", "/metrics"],
+)
+instrumentator.instrument(app).expose(app)
 
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 
