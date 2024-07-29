@@ -26,8 +26,6 @@ services:
       context: ../
     volumes:
       - booking_static_vol:/booking/app/static/
-    ports: # for local dev
-      - "888:8000"
     depends_on:
       - booking_pg
       - booking_redis
@@ -87,8 +85,6 @@ services:
 
   booking_prometheus:
     image: prom/prometheus:v2.43.0
-    ports:
-      - "9090:9090"
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheusdata:/prometheus
@@ -108,15 +104,16 @@ services:
       - monitoring_nw
     restart: unless-stopped
 
+
 networks:
   postgres_nw:
-    driver: bridge
+    name: postgres_nw
   redis_nw:
-    driver: bridge
+    name: redis_nw
   nginx_nw:
-    driver: bridge
+    name: nginx_nw
   monitoring_nw:
-    driver: bridge
+    name: monitoring_nw
 
 volumes:
     booking_static_vol:
