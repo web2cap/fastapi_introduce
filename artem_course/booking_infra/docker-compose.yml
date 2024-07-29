@@ -102,6 +102,8 @@ services:
       - booking_prometheus
     networks:
       - monitoring_nw
+    env_file:
+      - ./.env
     restart: unless-stopped
 
 
