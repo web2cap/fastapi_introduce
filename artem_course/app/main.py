@@ -2,14 +2,10 @@ import time
 
 import sentry_sdk
 from fastapi import FastAPI, Request
-from fastapi.concurrency import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi_cache import FastAPICache
-from fastapi_cache.backends.redis import RedisBackend
 from fastapi_versioning import VersionedFastAPI
 from prometheus_fastapi_instrumentator import Instrumentator
-from redis import asyncio as aioredis
 from sqladmin import Admin
 
 from app.admin.auth import authentication_backend
@@ -31,18 +27,7 @@ sentry_sdk.init(
     profiles_sample_rate=1.0,
 )
 
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    redis = aioredis.from_url(
-        settings.REDIS_CACHE_STR, encoding="utf8", decode_responses=True
-    )
-    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
-    yield
-    await redis.close()
-
-
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 
 app.include_router(router_users)
 app.include_router(router_bookings)
@@ -82,8 +67,6 @@ app = VersionedFastAPI(
     app,
     version_format="{major}",
     prefix_format="/v{major}",
-    # description="Greet users with a nice message",
-    # middleware=[Middleware(SessionMiddleware, secret_key="mysecretkey")],
 )
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
