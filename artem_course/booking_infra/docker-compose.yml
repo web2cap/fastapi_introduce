@@ -9,17 +9,22 @@ services:
     ports: # for local dev
       - "54321:5432" 
     networks:
-      - postgres_nw
+      - booking_int_nw
     restart: unless-stopped
     env_file:
       - ./.env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   booking_redis:
     image: redis:latest
     ports: # for local dev
       - "63792:6379"
     networks:
-      - redis_nw
+      - booking_int_nw
 
   booking_back:
     build:
@@ -30,10 +35,8 @@ services:
       - booking_pg
       - booking_redis
     networks:
-      - postgres_nw
-      - redis_nw
-      - nginx_nw
-      - monitoring_nw
+      - booking_int_nw
+      - booking_proxy_nw
     restart: always
     env_file:
       - ./.env
@@ -45,11 +48,9 @@ services:
     volumes:
       - booking_static_vol:/booking/app/static/
     depends_on:
-      - booking_pg
-      - booking_redis
+      - booking_back
     networks:
-      - postgres_nw
-      - redis_nw
+      - booking_int_nw
     restart: always
     env_file:
       - ./.env
@@ -63,9 +64,8 @@ services:
     depends_on:
       - booking_celery
     networks:
-      - postgres_nw
-      - redis_nw
-      - nginx_nw
+      - booking_int_nw
+      - booking_proxy_nw
     env_file:
       - ./.env
     command: ["/scripts/start_celery.sh", "flower"]
@@ -80,16 +80,18 @@ services:
       - booking_back
       - booking_flower
     networks:
-      - nginx_nw
+      - booking_proxy_nw
     restart: unless-stopped
 
   booking_prometheus:
     image: prom/prometheus:v2.43.0
+    ports:
+      - "9090:9090"
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheusdata:/prometheus
     networks:
-      - monitoring_nw
+      - booking_int_nw
     restart: unless-stopped
 
   booking_grafana:
@@ -101,21 +103,19 @@ services:
     depends_on:
       - booking_prometheus
     networks:
-      - monitoring_nw
+      - booking_int_nw
     env_file:
       - ./.env
     restart: unless-stopped
 
 
 networks:
-  postgres_nw:
-    name: postgres_nw
-  redis_nw:
-    name: redis_nw
-  nginx_nw:
-    name: nginx_nw
-  monitoring_nw:
-    name: monitoring_nw
+  booking_int_nw:
+    name: booking_int_nw
+    driver: bridge
+  booking_proxy_nw:
+    name: booking_proxy_nw
+    driver: bridge
 
 volumes:
     booking_static_vol:
@@ -123,4 +123,3 @@ volumes:
     pgadmin:
     grafanadata:
     prometheusdata:
-    
