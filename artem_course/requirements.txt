@@ -3,7 +3,6 @@ asyncpg
 bcrypt
 celery
 fastapi[all]
-fastapi-cache2[redis]
 flower
 greenlet
 httpx
@@ -25,3 +24,4 @@ sentry-sdk[fastapi]
 fastapi-versioning
 gunicorn
 prometheus-fastapi-instrumentator
+fastapi-users[sqlalchemy]
