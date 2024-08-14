@@ -17,8 +17,7 @@ from app.hotels.rooms.router import router as router_rooms
 from app.hotels.router import router as router_hotels
 from app.images.router import router as router_images
 from app.logger import logger
-
-# from app.pages.router import router as router_pages
+from app.pages.router import router as router_pages
 from app.prometheus.router import router as router_prometheus
 from app.users.router import router as router_users
 
@@ -32,7 +31,7 @@ app = FastAPI()
 
 app.include_router(router_users)
 app.include_router(router_bookings)
-# app.include_router(router_pages)
+app.include_router(router_pages)
 app.include_router(router_hotels)
 app.include_router(router_rooms)
 app.include_router(router_images)
