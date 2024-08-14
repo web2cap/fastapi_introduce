@@ -16,7 +16,7 @@ from app.config import settings
 from app.database import engine
 
 # from app.hotels.rooms.router import router as router_rooms
-# from app.hotels.router import router as router_hotels
+from app.hotels.router import router as router_hotels
 from app.images.router import router as router_images
 from app.logger import logger
 
@@ -35,9 +35,9 @@ app = FastAPI()
 app.include_router(router_users)
 # app.include_router(router_bookings)
 # app.include_router(router_pages)
-# app.include_router(router_hotels)
+app.include_router(router_hotels)
 # app.include_router(router_rooms)
-# app.include_router(router_images)
+app.include_router(router_images)
 # app.include_router(router_prometheus)
 
 
@@ -80,7 +80,6 @@ instrumentator = Instrumentator(
 )
 instrumentator.instrument(app).expose(app)
 
-# admin = Admin(app, engine)  # , authentication_backend=authentication_backend)
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 
 admin.add_view(UserAdmin)

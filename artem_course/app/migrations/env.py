@@ -7,8 +7,8 @@ from sqlalchemy import engine_from_config, pool
 
 # from app.bookings.models import Bookings
 from app.database import DATABASE_URL, Base
+from app.hotels.models import Hotels
 
-# from app.hotels.models import Hotels
 # from app.hotels.rooms.models import Rooms
 from app.users.models import Users
 

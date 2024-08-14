@@ -14,7 +14,7 @@ class Hotels(Base):
     rooms_quantity = Column(Integer, nullable=False)
     image_id = Column(Integer)
 
-    rooms = relationship("Rooms", back_populates="hotels")
+    # rooms = relationship("Rooms", back_populates="hotels")
 
     def __str__(self):
         return self.name
