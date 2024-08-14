@@ -10,8 +10,7 @@ from sqladmin import Admin
 
 from app.admin.auth import authentication_backend
 from app.admin.views import UserAdmin  # BookingsAdmin, HotelsAdmin, RoomsAdmin
-
-# from app.bookings.router import router as router_bookings
+from app.bookings.router import router as router_bookings
 from app.config import settings
 from app.database import engine
 from app.hotels.rooms.router import router as router_rooms
@@ -32,7 +31,7 @@ sentry_sdk.init(
 app = FastAPI()
 
 app.include_router(router_users)
-# app.include_router(router_bookings)
+app.include_router(router_bookings)
 # app.include_router(router_pages)
 app.include_router(router_hotels)
 app.include_router(router_rooms)
