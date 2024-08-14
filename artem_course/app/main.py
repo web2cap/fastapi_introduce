@@ -9,7 +9,7 @@ from prometheus_fastapi_instrumentator import Instrumentator
 from sqladmin import Admin
 
 from app.admin.auth import authentication_backend
-from app.admin.views import UserAdmin  # BookingsAdmin, HotelsAdmin, RoomsAdmin
+from app.admin.views import BookingsAdmin, HotelsAdmin, RoomsAdmin, UserAdmin
 from app.bookings.router import router as router_bookings
 from app.config import settings
 from app.database import engine
@@ -80,6 +80,6 @@ instrumentator.instrument(app).expose(app)
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 
 admin.add_view(UserAdmin)
-# admin.add_view(BookingsAdmin)
-# admin.add_view(HotelsAdmin)
-# admin.add_view(RoomsAdmin)
+admin.add_view(BookingsAdmin)
+admin.add_view(HotelsAdmin)
+admin.add_view(RoomsAdmin)
