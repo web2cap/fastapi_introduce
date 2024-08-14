@@ -87,3 +87,31 @@ This project is a FastAPI-based booking system that includes a variety of featur
     ```bash
     docker-compose up --build
     ```
+
+
+## Docker Compose Configuration
+The Docker Compose setup includes several services:
+
+ - booking_pg: PostgreSQL database.
+ - booking_redis: Redis for Celery.
+ - booking_back: FastAPI application.
+ - booking_celery: Celery worker.
+ - booking_flower: Flower for Celery monitoring.
+ - booking_nginx: Nginx for reverse proxy.
+ - booking_prometheus: Prometheus for monitoring.
+ - booking_grafana: Grafana for metrics visualization.
+
+Networks and volumes are configured for inter-service communication and data persistence.
+
+# Accessing the Application
+ - API Documentation: http://localhost/v1/docs
+
+ - Admin Interface: http://localhost/admin 
+
+ - Celery Flower: http://localhost:5555
+
+### Monitoring and Metrics
+
+
+ - Grafana: http://localhost:3000 (default credentials: admin/admin)
+ - Prometheus:  http://localhost:9090
