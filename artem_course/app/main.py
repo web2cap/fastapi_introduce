@@ -8,16 +8,18 @@ from fastapi_versioning import VersionedFastAPI
 from prometheus_fastapi_instrumentator import Instrumentator
 from sqladmin import Admin
 
-from app.admin.auth import authentication_backend
-from app.admin.views import BookingsAdmin, HotelsAdmin, RoomsAdmin, UserAdmin
-from app.bookings.router import router as router_bookings
+# from app.admin.auth import authentication_backend
+# from app.admin.views import BookingsAdmin, HotelsAdmin, RoomsAdmin, UserAdmin
+# from app.bookings.router import router as router_bookings
 from app.config import settings
 from app.database import engine
-from app.hotels.rooms.router import router as router_rooms
-from app.hotels.router import router as router_hotels
+
+# from app.hotels.rooms.router import router as router_rooms
+# from app.hotels.router import router as router_hotels
 from app.images.router import router as router_images
 from app.logger import logger
-from app.pages.router import router as router_pages
+
+# from app.pages.router import router as router_pages
 from app.prometheus.router import router as router_prometheus
 from app.users.router import router as router_users
 
@@ -29,7 +31,7 @@ sentry_sdk.init(
 
 app = FastAPI()
 
-# app.include_router(router_users)
+app.include_router(router_users)
 # app.include_router(router_bookings)
 # app.include_router(router_pages)
 # app.include_router(router_hotels)
@@ -77,7 +79,7 @@ instrumentator = Instrumentator(
 )
 instrumentator.instrument(app).expose(app)
 
-admin = Admin(app, engine, authentication_backend=authentication_backend)
+# admin = Admin(app, engine, authentication_backend=authentication_backend)
 
 # admin.add_view(UserAdmin)
 # admin.add_view(BookingsAdmin)
