@@ -29,13 +29,13 @@ sentry_sdk.init(
 
 app = FastAPI()
 
-app.include_router(router_users)
-app.include_router(router_bookings)
-app.include_router(router_pages)
-app.include_router(router_hotels)
-app.include_router(router_rooms)
-app.include_router(router_images)
-app.include_router(router_prometheus)
+# app.include_router(router_users)
+# app.include_router(router_bookings)
+# app.include_router(router_pages)
+# app.include_router(router_hotels)
+# app.include_router(router_rooms)
+# app.include_router(router_images)
+# app.include_router(router_prometheus)
 
 
 origins = [
@@ -79,7 +79,7 @@ instrumentator.instrument(app).expose(app)
 
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 
-admin.add_view(UserAdmin)
-admin.add_view(BookingsAdmin)
-admin.add_view(HotelsAdmin)
-admin.add_view(RoomsAdmin)
+# admin.add_view(UserAdmin)
+# admin.add_view(BookingsAdmin)
+# admin.add_view(HotelsAdmin)
+# admin.add_view(RoomsAdmin)
