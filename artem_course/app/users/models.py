@@ -14,3 +14,6 @@ class Users(SQLAlchemyBaseUserTable[int], Base):
     is_verified: Mapped[bool] = mapped_column(default=False, nullable=False)
 
     booking = relationship("Bookings", back_populates="user")
+
+    def __str__(self):
+        return f"User {self.email}"
