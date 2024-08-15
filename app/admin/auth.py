@@ -29,16 +29,16 @@ class AdminAuth(AuthenticationBackend):
                     if user and user.is_active and user.is_superuser:
                         strategy = auth_backend.get_strategy()
                         token = await strategy.write_token(user)
-                        request.session.update({"admin_auth": token})
+                        request.session.update({settings.ADMIN_COOKIE_NAME: token})
                         return True
         return False
 
     async def logout(self, request: Request) -> bool:
-        request.session.pop("admin_auth")
+        request.session.pop(settings.ADMIN_COOKIE_NAME)
         return True
 
     async def authenticate(self, request: Request) -> bool:
-        token = request.session.get("admin_auth")
+        token = request.session.get(settings.ADMIN_COOKIE_NAME)
         if not token:
             return False
 

@@ -6,7 +6,9 @@ from fastapi_users.authentication import (
 
 from app.config import settings
 
-cookie_transport = CookieTransport(cookie_name="bookng", cookie_max_age=3600)
+cookie_transport = CookieTransport(
+    cookie_name=settings.COOKIE_NAME, cookie_max_age=3600
+)
 
 
 def get_jwt_strategy() -> JWTStrategy:

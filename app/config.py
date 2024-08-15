@@ -25,9 +25,10 @@ class Settings(BaseSettings):
     REDIS_CELERY_STR: str
 
     HASH_KEY: str
-    HASH_ALGO: str
-
     ADMIN_SECURE_KEY: str
+
+    COOKIE_NAME: str
+    ADMIN_COOKIE_NAME: str
 
     model_config = ConfigDict(env_file=".env")
 
