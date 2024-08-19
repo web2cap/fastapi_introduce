@@ -25,7 +25,9 @@ async def prepare_database():
         await conn.run_sync(Base.metadata.create_all)
 
     def open_mock_json(model: str):
-        with open(f"app/tests/fixtures_data/mock_{model}.json", encoding="utf-8") as file:
+        with open(
+            f"app/tests/fixtures_data/mock_{model}.json", encoding="utf-8"
+        ) as file:
             return json.load(file)
 
     hotels = open_mock_json("hotels")
@@ -53,7 +55,7 @@ async def prepare_database():
 
 @pytest.fixture(scope="function")
 async def ac():
-    async with AsyncClient(transport=TRANSPORT, base_url="http://test") as ac:
+    async with AsyncClient(transport=TRANSPORT, base_url="https://test") as ac:
         yield ac
 
 
@@ -65,13 +67,14 @@ async def session():
 
 @pytest.fixture(scope="session")
 async def authenticated_ac():
-    async with AsyncClient(transport=TRANSPORT, base_url="http://test") as ac:
-        await ac.post(
-            "/auth/login",
-            json={
-                "email": "test@test.com",
-                "password": "test",
-            },
+    async with AsyncClient(transport=TRANSPORT, base_url="https://test") as ac:
+        login_response = await ac.post(
+            "/v1/auth/jwt/login",
+            data={"username": "test@test.com", "password": "test"},
         )
-        assert ac.cookies["booking_access_token"]
+
+        assert login_response.status_code == 204, "Login for test@test.com filed."
+        cookie = ac.cookies.get(settings.COOKIE_NAME)
+        assert cookie, f"Cookie '{settings.COOKIE_NAME}' not found in response."
+
         yield ac
