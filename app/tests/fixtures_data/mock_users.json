@@ -1,7 +1,7 @@
 [
     {
         "email": "test@test.com",
-        "hashed_password": "$2b$12$ib8N/MddMjSxNs4UOF69c.KuO4CyglQHcNATYpHcKJJn5rbltYNFG",
+        "hashed_password": "$argon2id$v=19$m=65536,t=3,p=4$aejA+Fy0cVj6eYJ+jfE2vQ$7cS5d2ENfvIwwptWtK3fg9RpKP9b43RUk3A7yHGyKnU",
         "is_active": true,
         "is_superuser": false,
         "is_verified": false
