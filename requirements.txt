@@ -14,10 +14,6 @@ python-jose
 psycopg2
 sqladmin
 sqlalchemy
-black
-flake8
-autoflake
-isort
 pyright
 python-json-logger
 sentry-sdk[fastapi]
@@ -25,3 +21,5 @@ fastapi-versioning
 gunicorn
 prometheus-fastapi-instrumentator
 fastapi-users[sqlalchemy]
+ruff
+pre-commit
