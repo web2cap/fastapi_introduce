@@ -20,11 +20,11 @@ async def get_bookings(user: Users = Depends(current_active_user)) -> list[SBook
     return await BookingDAO.find_all(user_id=user.id)
 
 
-@router.get("/{id}")
+@router.get("/{booking_id}")
 async def get_bookings_by_id(
-    id: int, user: Users = Depends(current_active_user)
+    booking_id: int, user: Users = Depends(current_active_user)
 ) -> SBookings | None:
-    return await BookingDAO.find_by_id(id)
+    return await BookingDAO.find_by_id(booking_id)
 
 
 @router.post("")
@@ -40,9 +40,9 @@ async def add_booking(
         raise NoFreeRoomsOnThisDates
 
 
-@router.delete("/{id}")
-async def delete_booking(id: int, user=Depends(current_active_user)) -> SBookings:
-    dropped_booking = await BookingDAO.delete_by_id(id)
+@router.delete("/{booking_id}")
+async def delete_booking(booking_id: int, user=Depends(current_active_user)) -> SBookings:
+    dropped_booking = await BookingDAO.delete_by_id(booking_id)
     if not dropped_booking:
         raise NoEntryFoundException
     return SBookings.model_validate(dropped_booking)

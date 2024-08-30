@@ -26,6 +26,6 @@ async def get_hotels_by_location(
     return SHotelsFreeRooms(hotels=hotels_dict)
 
 
-@router.get("/id/{id}")
-async def get_hotels_by_id(id: int) -> SHotel | None:
-    return await HotelsDAO.find_by_id(id)
+@router.get("/id/{hotel_id}")
+async def get_hotels_by_id(hotel_id: int) -> SHotel | None:
+    return await HotelsDAO.find_by_id(hotel_id)
