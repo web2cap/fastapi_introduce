@@ -17,9 +17,7 @@ class UserManager(IntegerIDMixin, BaseUserManager[Users, int]):
     async def on_after_register(self, user: Users, request=None):
         print(f"User {user.email} has registered.")
 
-    async def create(
-        self, user_create: SUserCreate, safe: bool = False, request=None
-    ) -> Users:
+    async def create(self, user_create: SUserCreate, safe: bool = False, request=None) -> Users:
         user_dict = user_create.model_dump()
         try:
             user = Users(
@@ -36,7 +34,7 @@ class UserManager(IntegerIDMixin, BaseUserManager[Users, int]):
         except IntegrityError as e:
             await self.user_db.session.rollback()
             if "duplicate key value violates unique constraint" in str(e.orig):
-                raise UserAlreadyExistsExeption()
+                raise UserAlreadyExistsExeption() from e
             else:
                 raise e
 
