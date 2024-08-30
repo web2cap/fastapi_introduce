@@ -16,6 +16,7 @@ sqladmin
 sqlalchemy
 pyright
 python-json-logger
+redis
 sentry-sdk[fastapi]
 fastapi-versioning
 gunicorn
