@@ -75,7 +75,7 @@ This project is a FastAPI-based booking system that includes a variety of featur
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/fastapi-booking-system.git
+   git clone https://github.com/web2cap/fastapi_introduce
    ```
 2. Prepare .env
     ```bash
